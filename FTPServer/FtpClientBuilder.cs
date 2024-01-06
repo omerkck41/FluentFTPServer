@@ -64,13 +64,13 @@ namespace FTPServer
                     mainpath += "/";
 
                 _mainpath = mainpath;
-                return this;
             }
             else
             {
                 _mainpath = "/";
-                return this;
             }
+
+            return this;
         }
 
 

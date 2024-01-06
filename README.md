@@ -27,7 +27,7 @@ var ftpClient = new FtpClientBuilder()
     .WithServer("ftp.example.com")
     .WithPort(21)
     .WithCredentials("username", "password")
-    .UseSsl()
+    .WithSsl()
     .Build();
 
 bool exists = await ftpClient.FileExistsAsync("/httpdocs/favicon.ico");

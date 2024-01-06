@@ -11,60 +11,79 @@ namespace FTPServer
 		private bool _useSsl;
 		private int _timeout;
 		private int _retry;
+        private string _mainpath;
 
 		public FtpClientBuilder WithServer(string server)
-		{
-			_server = server;
-			return this;
-		}
-		public FtpClientBuilder WithPort(int port)
-		{
-			_port = port;
-			return this;
-		}
-		public FtpClientBuilder WithUsername(string username)
-		{
-			_username = username;
-			return this;
-		}
-		public FtpClientBuilder WithPassword(string password)
-		{
-			_password = password;
-			return this;
-		}
-		public FtpClientBuilder WithCredentials(string username, string password)
-		{
-			_username = username;
-			_password = password;
-			return this;
-		}
-        public FtpClientBuilder WithSsl(bool useSsl = false)
-		{
-			_useSsl = useSsl;
-			return this;
-		}
-		public FtpClientBuilder WithTimeout(int timeout)
-		{
-			_timeout = timeout;
-			return this;
-		}
-		public FtpClientBuilder WithRetry(int retry)
-		{
-			_retry = retry;
-			return this;
-		}
+{
+	_server = server;
+	return this;
+}
+public FtpClientBuilder WithPort(int port)
+{
+	_port = port;
+	return this;
+}
+public FtpClientBuilder WithUsername(string username)
+{
+	_username = username;
+	return this;
+}
+public FtpClientBuilder WithPassword(string password)
+{
+	_password = password;
+	return this;
+}
+public FtpClientBuilder WithCredentials(string username, string password)
+{
+	_username = username;
+	_password = password;
+	return this;
+}
+public FtpClientBuilder WithSsl(bool useSsl)
+{
+	_useSsl = useSsl;
+	return this;
+}
+public FtpClientBuilder WithTimeout(int timeout)
+{
+	_timeout = timeout;
+	return this;
+}
+public FtpClientBuilder WithRetry(int retry)
+{
+	_retry = retry;
+	return this;
+}
+public FtpClientBuilder WithMainPath(string mainpath)
+{
+	if (!string.IsNullOrEmpty(mainpath))
+	{
+		if(!mainpath.StartsWith("/"))
+            mainpath = "/" + mainpath;
+		if(!mainpath.EndsWith("/"))
+            mainpath += "/";
+
+        _mainpath = mainpath;
+        return this;
+	}
+	else
+	{
+        _mainpath = "/";
+        return this;
+	}
+}
 
 
 		public IFtpClient Build()
-		{
-			if (string.IsNullOrEmpty(_server) || string.IsNullOrEmpty(_username) || string.IsNullOrEmpty(_password))
-				throw new Exception("Cannot be null or empty");
+{
+	if (string.IsNullOrEmpty(_server) || string.IsNullOrEmpty(_username) || string.IsNullOrEmpty(_password))
+		throw new Exception("Cannot be null or empty");
 
-			var ftpClient = new AsyncFtpClient();
-			ftpClient.Config.ConnectTimeout = 1000 * (_timeout > 0 ? _timeout : 10);
-			ftpClient.Config.RetryAttempts = _retry;
+	var ftpClient = new AsyncFtpClient();
+	ftpClient.Config.ConnectTimeout = 1000 * (_timeout > 0 ? _timeout : 10);
+	ftpClient.Config.RetryAttempts = _retry;
 
-			return new FluentFtpClient(ftpClient, _server, _port, _username, _password, _useSsl);
-		}
+	return new FluentFtpClient(ftpClient, _server, _port, _username, _password, _useSsl, _mainpath);
+}
 	}
 }

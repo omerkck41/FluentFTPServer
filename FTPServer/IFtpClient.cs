@@ -6,7 +6,7 @@
 		void Disconnect();
 		Task<bool> FileExistsAsync(string filePath);
 		Task<bool> DirectoryExistsAsync(string directoryPath);
-		Task<IEnumerable<string>> ListDirectoryAsync(string directoryPath);
+		Task<IEnumerable<string>> ListDirectoryAsync(string directoryPath = "/");
 		Task<bool> CreateDirectoryAsync(string directoryPath);
 		Task<bool> DeleteDirectoryAsync(string directoryPath);
 		Task<bool> RenameDirectoryAsync(string currentDirectoryPath, string newDirectoryPath);

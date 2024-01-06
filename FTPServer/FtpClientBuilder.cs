@@ -38,7 +38,7 @@ namespace FTPServer
 			_password = password;
 			return this;
 		}
-        public FtpClientBuilder WithSsl(bool useSsl)
+        public FtpClientBuilder WithSsl(bool useSsl = false)
 		{
 			_useSsl = useSsl;
 			return this;
